@@ -229,11 +229,11 @@ let theme_Blue_slate__Orange_sand: Theme = {
     { stop: 6/6, color: hslToComponents(violet.violet9) },
   ],*/
   backgroundColors: [
-    { stop: 0, color: hslToComponents(sky.sky5) },
-    { stop: 0.45, color: hslToComponents(blue.blue8) },
-    { stop: 0.5, color: hslToComponents(blue.blue8) },
-    { stop: 0.6, color: hslToComponents(blue.blue8) },
-    { stop: 1, color: hslToComponents(green.green8) },
+    { stop: 0, color: { hue: 0, saturation: 30, lightness: 50 } },
+    { stop: 0.45, color: { hue: 10, saturation: 40, lightness: 50 } },
+    { stop: 0.5, color: { hue: 20, saturation: 50, lightness: 50 } },
+    { stop: 0.6, color: { hue: 30, saturation: 40, lightness: 50 } },
+    { stop: 1, color: { hue: 40, saturation: 30, lightness: 50 } },
   ],
 }
 
