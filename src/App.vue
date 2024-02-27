@@ -42,7 +42,7 @@ function reloadBackgound() {
           <Island cornerRadius="1.5rem">
             <VStack padding="0.75rem 1.25rem" spacing="0">
               <h1>
-                <span id="text01-accent">Linda</span>
+                <span id="text01-accent">JGantts</span>
                 <span id="text01-dot">.</span>
                 <span id="text01">com</span>
               </h1>
