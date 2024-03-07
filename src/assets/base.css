@@ -98,6 +98,14 @@ button, input[type="submit"], input[type="reset"] {
     url(/fonts/Figtree/Figtree-Black.woff2) format("woff2");
 }
 
+.fa-icon {
+  height: 1em;
+  width: 1em;
+  line-height: 1;
+  vertical-align: middle;
+  fill: currentColor;
+}
+
 #app {
   font-family: 'Figtree', Arial, sans-serif;
 }
@@ -107,7 +115,7 @@ body {
 }
 
 #backgorund-holder {
-    position: relative;
+  position: relative;
 }
 
 #background-parent {
@@ -126,75 +134,11 @@ body {
   background-color: hsl(206, 100%, 35.0%);
   background-color: var(--base8);
   background-color: hsl(206, 100%, 35.0%);
+  background-color: var(--backgroundAppBase);
 }
 
 html {
   font-size: 24pt;
-}
-
-#text01-accent {
-  color: var(--textAccentOnBase);
-  font-size: 2em;
-  line-height: 1.5;
-  font-weight: 500;
-}
-
-#text01-dot {
-  font-size: 2em;
-  line-height: 1.5;
-  font-weight: 500;
-}
-
-#text01 {
-  font-size: 2em;
-  line-height: 1.5;
-  font-weight: 500;
-}
-
-#text02 {
-  font-size: 1em;
-  line-height: 1.5;
-  font-weight: 300;
-}
-
-#text03 {
-  color: var(--textGrayOnBaseLowContrast);
-  font-size: 0.625em;
-  line-height: 1.5;
-  font-weight: 300;
-}
-
-#text04 {
-  font-size: 1em;
-  line-height: 1.5;
-  font-weight: 400;
-}
-
-#text05 {
-  color: var(--textAccentOnBase);
-  font-size: 1em;
-  line-height: 1.5;
-  font-weight: 500;
-
-}
-
-#text06 {
-  text-align: justify;
-  font-size: 0.625em;
-  line-height: 1.5;
-  font-weight: 400;
-}
-
-#text07 {
-  font-size: 0.5em;
-  line-height: 1.5;
-  font-weight: 300;
-}
-
-#text07-accent {
-  font-size: 0.5em;
-  line-height: 1.5;
-  font-weight: 400;
 }
 
 *, *:before, *:after {
@@ -350,4 +294,8 @@ html {
   html {
     font-size: 21pt;
   }
+}
+
+.shadow-NO {
+  box-shadow: 10px 20px 8px rgba(0, 0, 0, 0.5);
 }

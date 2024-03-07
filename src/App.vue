@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import Background from './components/Background.vue'
-import NavBar from './components/NavBar.vue'
 import { ref, onMounted } from 'vue'
 
 import Island from "./components/Island.vue"
@@ -11,9 +9,18 @@ import VStack from "./library-jgantts/VStack.vue";
 import ReplayButton from "./components/ReplayButton.vue"
 import Links from "./components/Links.vue"
 import ExpandedView from "./library-jgantts/ExpandedView.vue"
+import Background from "./components/Background.vue"
+
+import { setCSSColors } from './Curtain/ThemeHandler'
 import { Breakpoint } from "./common/Breakpoint"
+import {
+  theme_BlueDark_slate__Tomato_mauve,
+  theme_Blue_slate__Orange_sand,
+} from './Curtain/Themes'
+import { BackgroundState } from './Curtain/Types';
 
 const backgroundRef = ref(null)
+const replayButtonRef = ref(null)
 
 const darkModePreference = window.matchMedia("(prefers-color-scheme: dark)")
 darkModePreference.addEventListener("change", checkDarkMode)
@@ -25,26 +32,38 @@ function checkDarkMode(mediaMatch: any) {
   } else {
     document.body.classList.remove("dark-theme");
   }
+  setCSSColors(mediaMatch.matches ? theme_BlueDark_slate__Tomato_mauve : theme_Blue_slate__Orange_sand)
 }
 
-function reloadBackgound() {
+async function pausePlay() {
+  runningSecondary.value = true
   //@ts-expect-error
-  backgroundRef.value?.reloadBackgound()
+  let newState = await backgroundRef.value?.pausePlay()
+  //@ts-expect-error
+  replayButtonRef.value.state = newState
 }
 
+const runningSecondary = ref(false)
+
+function firstRunDone() {
+  //@ts-expect-error
+  replayButtonRef.value?.firstRunDone()
+}
+
+onMounted(() => {
+})
 </script>
 
 <template>
   <div id="app">
     <div id="box">
       <div id="content">
-        <VStack padding="1.25rem" spacing="0.5rem">
+        <VStack padding="1.25rem" spacing="0.5rem">          
           <Island cornerRadius="1.5rem">
             <VStack padding="0.75rem 1.25rem" spacing="0">
               <h1>
-                <span id="text01-accent">JGantts</span>
-                <span id="text01-dot">.</span>
-                <span id="text01">com</span>
+                <span class="text01 highlight" :class="{ mellow: runningSecondary }">JGantts</span>
+                <span class="text01">.com</span>
               </h1>
               <p id="text02">Welcome, all.</p>
             </VStack>
@@ -71,26 +90,21 @@ function reloadBackgound() {
             </DStack>
           </Island>
           <!-- <NavBar /> -->
-          <DStack
-            :breakpoint="Breakpoint._2_M"
-            padding="0"
-            hSpacing="1rem"
-            vSpacing="1rem"
-          >
-            <ExpandedView>
-              <ReplayButton style="visibility: hidden"/>
-            </ExpandedView>
-            <Island cornerRadius="0.5rem">
+          <div id="replay-holder">
+            <div style="width: 2rem" />
+            <Island id="replay-sibling" cornerRadius="0.5rem">
               <VStack padding="0.25rem 0.75rem">
-                <p id="text05">I write software!</p>
+                <p class="text05 highlight" :class="{ mellow: runningSecondary }">I write software!</p>
                 <p id="text07">© 2024 Jacob Gantt</p>
               </VStack>
             </Island>
-            <ReplayButton @click="reloadBackgound" />
-          </DStack>
+            <div style="width: 2rem">
+              <ReplayButton class="replay-button" @click="pausePlay" :state="BackgroundState.First" ref="replayButtonRef"/>
+            </div>
+          </div>
         </VStack>
       </div>
-      <Background id="background" ref="{backgroundRef}" />
+      <Background ref="backgroundRef" @first-run-done="firstRunDone"/>
     </div>
   </div>
 </template>
@@ -117,15 +131,6 @@ function reloadBackgound() {
   overflow: visible;
 }
 
-#background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-}
-
 #content {
   position: relative;
   max-width: 100vw;
@@ -146,5 +151,90 @@ function reloadBackgound() {
   --flex-alignment: center;
 }
 
+#replay-holder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* To vertically center the items */
+  gap: 0.5rem;
+}
 
+#replay-sibling {
+  flex-grow: 1; /* Allow the sibling to grow and take up available space */
+  text-align: center; /* Center the content of the sibling */
+}
+
+.replay-button {
+  width: 1em;
+}
+
+.text01-accent {
+  color: var(--textAccentOnBase);
+  font-size: 2em;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.text01 {
+  font-size: 2em;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+#text02 {
+  font-size: 1em;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+#text03 {
+  color: var(--textGrayOnBaseLowContrast);
+  font-size: 0.625em;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+#text04 {
+  font-size: 1em;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.text05 {
+  font-size: 1em;
+  line-height: 1.5;
+  font-weight: 500;
+
+}
+
+#text06 {
+  text-align: justify;
+  font-size: 0.625em;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+#text07 {
+  font-size: 0.5em;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+#text07-accent {
+  font-size: 0.5em;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+</style>
+
+<style scoped>
+.highlight {
+  color: var(--textAccentOnBase);
+}
+
+/* Apply the animation to the text element */
+.mellow {
+  color: var(--textBaseOnAccentLowContrast);
+  transition: color 3s ease-in-out 1.5s;
+}
 </style>
